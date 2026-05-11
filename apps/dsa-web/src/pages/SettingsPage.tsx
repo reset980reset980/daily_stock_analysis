@@ -138,7 +138,7 @@ function getDesktopUpdateNotice(state: DesktopUpdateState | null): DesktopUpdate
     const percentText = typeof state.downloadPercent === 'number' ? `（${state.downloadPercent}%）` : '';
     return {
       title: '正在下载更新',
-      message: state.message || `正在后台下载桌面端更新${percentText}。`,
+      message: state.message || `正在后台下载데스크톱 앱 업데이트${percentText}。`,
       variant: 'warning' as const,
     };
   }
@@ -179,7 +179,7 @@ function getDesktopUpdateNotice(state: DesktopUpdateState | null): DesktopUpdate
 
   if (state.status === 'error') {
     return {
-      title: '检查更新失败',
+      title: '检查更新실패',
       message: state.message || '无法完成更新检查，请稍后重试。',
       variant: 'error' as const,
       actionLabel: state.updateMode === 'auto' && state.releaseUrl ? '前往下载' : undefined,
@@ -218,7 +218,7 @@ const SettingsPage: React.FC = () => {
 
   // Set page title
   useEffect(() => {
-    document.title = '系统设置 - DSA';
+    document.title = '설정 - QuantB';
   }, []);
 
   const {
@@ -285,7 +285,7 @@ const SettingsPage: React.FC = () => {
         }
         setDesktopUpdateState({
           status: 'error',
-          message: error instanceof Error ? error.message : '读取桌面端更新状态失败。',
+          message: error instanceof Error ? error.message : '读取데스크톱 앱 업데이트状态실패。',
         });
       }
     };
@@ -420,14 +420,14 @@ const SettingsPage: React.FC = () => {
       const reloaded = await load();
       if (!reloaded) {
         setEnvBackupActionError(createParsedApiError({
-          title: '配置已导入但刷新失败',
-          message: '备份已导入，但重新加载配置失败，请手动重载页面。',
+          title: '配置已导入但刷新실패',
+          message: '备份已导入，但다시 불러오기配置실패，请手动重载页面。',
           rawMessage: 'Env import succeeded but config refresh failed',
           category: 'http_error',
         }));
         return;
       }
-      setEnvBackupActionSuccess('已导入 .env 备份并重新加载配置。');
+      setEnvBackupActionSuccess('已导入 .env 备份并다시 불러오기配置。');
     } catch (error: unknown) {
       setEnvBackupActionError(getParsedApiError(error));
     } finally {
@@ -453,7 +453,7 @@ const SettingsPage: React.FC = () => {
     } catch (error: unknown) {
       setDesktopUpdateState({
         status: 'error',
-        message: error instanceof Error ? error.message : '检查更新失败，请稍后重试。',
+        message: error instanceof Error ? error.message : '检查更新실패，请稍后重试。',
       });
     } finally {
       setIsCheckingDesktopUpdate(false);
@@ -489,7 +489,7 @@ const SettingsPage: React.FC = () => {
       setDesktopUpdateState((current) => ({
         ...(current || {}),
         status: 'error',
-        message: error instanceof Error ? error.message : '自动安装更新失败，请前往发布页手动更新。',
+        message: error instanceof Error ? error.message : '自动安装更新실패，请前往发布页手动更新。',
       }));
     }
   };
@@ -501,9 +501,9 @@ const SettingsPage: React.FC = () => {
       <div className="mb-5 rounded-[1.5rem] border settings-border bg-card/94 px-5 py-5 shadow-soft-card-strong backdrop-blur-sm">
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div>
-            <h1 className="text-xl font-semibold tracking-tight text-foreground">系统设置</h1>
+            <h1 className="text-xl font-semibold tracking-tight text-foreground">시스템 설정</h1>
             <p className="text-xs leading-6 text-muted-text">
-              统一管理模型、数据源、通知、安全认证与导入能力。
+              모델, 데이터 소스, 알림, 보안 인증, 가져오기 기능을 한 곳에서 관리합니다.
             </p>
           </div>
 
@@ -514,7 +514,7 @@ const SettingsPage: React.FC = () => {
               onClick={resetDraft}
               disabled={isLoading || isSaving}
             >
-              重置
+              초기화
             </Button>
             <Button
               type="button"
@@ -522,9 +522,9 @@ const SettingsPage: React.FC = () => {
               onClick={() => void save()}
               disabled={!hasDirty || isSaving || isLoading}
               isLoading={isSaving}
-              loadingText="保存中..."
+              loadingText="저장 중..."
             >
-              {isSaving ? '保存中...' : `保存配置${dirtyCount ? ` (${dirtyCount})` : ''}`}
+              {isSaving ? '저장 중...' : `설정 저장${dirtyCount ? ` (${dirtyCount})` : ''}`}
             </Button>
           </div>
         </div>
@@ -533,7 +533,7 @@ const SettingsPage: React.FC = () => {
           <ApiErrorAlert
             className="mt-3"
             error={saveError}
-            actionLabel={retryAction === 'save' ? '重试保存' : undefined}
+            actionLabel={retryAction === 'save' ? '저장 다시 시도' : undefined}
             onAction={retryAction === 'save' ? () => void retry() : undefined}
           />
         ) : null}
@@ -542,7 +542,7 @@ const SettingsPage: React.FC = () => {
       {loadError ? (
         <ApiErrorAlert
           error={loadError}
-          actionLabel={retryAction === 'load' ? '重试加载' : '重新加载'}
+          actionLabel={retryAction === 'load' ? '불러오기 다시 시도' : '다시 불러오기'}
           onAction={() => void retry()}
           className="mb-4"
         />
@@ -581,7 +581,7 @@ const SettingsPage: React.FC = () => {
                   </div>
                   <div className="rounded-2xl border settings-border bg-background/40 px-4 py-3">
                     <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-text">
-                      构建标识
+                      빌드 식별자
                     </p>
                     <p className="mt-2 break-all font-mono text-sm text-foreground">
                       {WEB_BUILD_INFO.buildId}
@@ -589,7 +589,7 @@ const SettingsPage: React.FC = () => {
                   </div>
                   <div className="rounded-2xl border settings-border bg-background/40 px-4 py-3">
                     <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-text">
-                      构建时间
+                      빌드 시간
                     </p>
                     <p className="mt-2 break-all font-mono text-sm text-foreground">
                       {WEB_BUILD_INFO.buildTime}
@@ -598,7 +598,7 @@ const SettingsPage: React.FC = () => {
                   {shouldShowDesktopVersionCard ? (
                     <div className="rounded-2xl border settings-border bg-background/40 px-4 py-3">
                       <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-text">
-                        桌面端版本
+                        데스크톱 버전
                       </p>
                       <p className="mt-2 break-all font-mono text-sm text-foreground">
                         {desktopAppVersion}
@@ -607,15 +607,15 @@ const SettingsPage: React.FC = () => {
                   ) : null}
                 </div>
                 <p className="text-xs leading-6 text-muted-text">
-                  重新执行前端构建或 Docker 镜像构建后，此处的构建标识和构建时间会更新，可用来确认当前页面资源是否已切换。
+                  重新执行前端构建或 Docker 镜像构建后，此处的빌드 식별자和빌드 시간会更新，可用来确认当前页面资源是否已切换。
                 </p>
                 {canCheckDesktopUpdate ? (
                   <div className="mt-4 space-y-3 rounded-2xl border settings-border bg-background/30 px-4 py-4">
                     <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                       <div>
-                        <p className="text-sm font-medium text-foreground">桌面端更新</p>
+                        <p className="text-sm font-medium text-foreground">데스크톱 앱 업데이트</p>
                         <p className="text-xs leading-6 text-muted-text">
-                          启动后会自动检查 GitHub Releases 最新正式版；Windows 安装版会后台下载更新并提示重启安装。
+                          앱 실행 후 GitHub Releases의 최신 정식 버전을 자동 확인합니다. Windows 설치판은 백그라운드 다운로드 후 재시작 설치를 안내합니다.
                         </p>
                       </div>
                       <Button
@@ -652,7 +652,7 @@ const SettingsPage: React.FC = () => {
                 ) : null}
                 {WEB_BUILD_INFO.isFallbackVersion ? (
                   <p className="text-xs leading-6 text-amber-700 dark:text-amber-300">
-                    当前 package.json 仍为占位版本 0.0.0，页面已自动回退展示构建标识，避免误判旧资源仍在生效。
+                    当前 package.json 仍为占位版本 0.0.0，页面已自动回退展示빌드 식별자，避免误判旧资源仍在生效。
                   </p>
                 ) : null}
               </SettingsSectionCard>
@@ -701,25 +701,25 @@ const SettingsPage: React.FC = () => {
                     />
                   </div>
                   <p className="text-xs leading-6 text-muted-text">
-                    导出内容仅包含当前已保存配置，不包含页面上尚未保存的本地草稿。
+                    导出内容仅包含当前已설정 저장，不包含页面上尚未保存的本地草稿。
                   </p>
                   {envBackupActionError ? (
                     <ApiErrorAlert
                       error={envBackupActionError}
-                      actionLabel={envBackupActionError.status === 409 ? '重新加载' : undefined}
+                      actionLabel={envBackupActionError.status === 409 ? '다시 불러오기' : undefined}
                       onAction={envBackupActionError.status === 409 ? () => void load() : undefined}
                     />
                   ) : null}
                   {!envBackupActionError && envBackupActionSuccess ? (
-                    <SettingsAlert title="操作成功" message={envBackupActionSuccess} variant="success" />
+                    <SettingsAlert title="操作성공" message={envBackupActionSuccess} variant="success" />
                   ) : null}
                 </div>
               </SettingsSectionCard>
             ) : null}
             {activeCategory === 'base' ? (
               <SettingsSectionCard
-                title="智能导入"
-                description="从图片、文件或剪贴板中提取股票代码，并合并到自选股列表。"
+                title="지능형 가져오기"
+                description="从图片、文件或剪贴板中提取股票代码，并관심 종목에 합치기列表。"
               >
                 <IntelligentImport
                   stockListValue={
@@ -736,8 +736,8 @@ const SettingsPage: React.FC = () => {
             ) : null}
             {activeCategory === 'ai_model' ? (
               <SettingsSectionCard
-                title="AI 模型接入"
-                description="统一管理模型渠道、基础地址、API Key、主模型与备选模型。"
+                title="AI 모델 연결"
+                description="모델 채널, 기본 주소, API 키, 주 모델, 보조 모델을 한 곳에서 관리합니다."
               >
                 <LLMChannelEditor
                   items={rawActiveItems}
@@ -762,8 +762,8 @@ const SettingsPage: React.FC = () => {
             ) : null}
             {activeItems.length ? (
               <SettingsSectionCard
-                title="当前分类配置项"
-                description={getCategoryDescriptionZh(activeCategory as SystemConfigCategory, '') || '使用统一字段卡片维护当前分类的系统配置。'}
+                title="현재 분류 설정 항목"
+                description={getCategoryDescriptionZh(activeCategory as SystemConfigCategory, '') || '선택한 분류의 설정 항목을 여기서 수정할 수 있습니다.'}
               >
                 {activeItems.map((item) => (
                   <SettingsField
@@ -778,8 +778,8 @@ const SettingsPage: React.FC = () => {
               </SettingsSectionCard>
             ) : (
               <EmptyState
-                title="当前分类下暂无配置项"
-                description="当前分类没有可编辑字段；可切换左侧分类继续查看其它系统配置。"
+                title="이 분류에는 아직 설정 항목이 없습니다"
+                description="왼쪽 분류를 바꿔 다른 시스템 설정을 확인해 보세요."
                 className="settings-surface-panel settings-border-strong border-none bg-transparent shadow-none"
               />
             )}
@@ -792,7 +792,7 @@ const SettingsPage: React.FC = () => {
           {toast.type === 'success'
             ? (
                 <SettingsAlert
-                  title="操作成功"
+                  title="操作성공"
                   message={toast.message}
                   variant="success"
                   presentation="toast"
@@ -804,9 +804,9 @@ const SettingsPage: React.FC = () => {
       <ConfirmDialog
         isOpen={showImportConfirm}
         title="导入会覆盖当前草稿"
-        message="当前页面还有未保存修改。继续导入会丢弃这些本地草稿，并立即用备份文件中的键值更新已保存配置。"
+        message="当前页面还有未保存修改。继续导入会丢弃这些本地草稿，并立即用备份文件中的键值更新已설정 저장。"
         confirmText="继续导入"
-        cancelText="取消"
+        cancelText="해제"
         onConfirm={() => {
           setShowImportConfirm(false);
           envBackupImportRef.current?.click();

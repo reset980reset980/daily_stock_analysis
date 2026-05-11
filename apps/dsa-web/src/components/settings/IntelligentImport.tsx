@@ -140,7 +140,7 @@ export const IntelligentImport: React.FC<IntelligentImportProps> = ({
       } catch (e) {
         const parsed = getParsedApiError(e);
         const err = e && typeof e === 'object' ? (e as { response?: { status?: number }; code?: string }) : null;
-        let fallback = '识别失败，请重试';
+        let fallback = '识别실패，请重试';
         if (err?.response?.status === 429) fallback = '请求过于频繁，请稍后再试';
         else if (err?.code === 'ECONNABORTED') fallback = '请求超时，请检查网络后重试';
         setError(parsed.message || fallback);
@@ -164,7 +164,7 @@ export const IntelligentImport: React.FC<IntelligentImportProps> = ({
         addItems(res.items ?? res.codes.map((c) => ({ code: c, name: null, confidence: 'medium' })));
       } catch (e) {
         const parsed = getParsedApiError(e);
-        setError(parsed.message || '解析失败');
+        setError(parsed.message || '분석실패');
       } finally {
         setIsLoading(false);
       }
@@ -189,7 +189,7 @@ export const IntelligentImport: React.FC<IntelligentImportProps> = ({
       })
       .catch((e) => {
         const parsed = getParsedApiError(e);
-        setError(parsed.message || '解析失败');
+        setError(parsed.message || '분석실패');
       })
       .finally(() => setIsLoading(false));
   }, [pasteText, addItems]);
@@ -277,9 +277,9 @@ export const IntelligentImport: React.FC<IntelligentImportProps> = ({
     } catch (e) {
       if (e instanceof SystemConfigConflictError) {
         await onMerged(value);
-        setError('配置已更新，请再次点击「合并到自选股」');
+        setError('配置已更新，请再次点击「관심 종목에 합치기」');
       } else {
-        setError(e instanceof Error ? e.message : '合并保存失败');
+        setError(e instanceof Error ? e.message : '合并保存실패');
       }
     } finally {
       setIsMerging(false);
@@ -294,7 +294,7 @@ export const IntelligentImport: React.FC<IntelligentImportProps> = ({
       <div className="settings-surface-panel settings-border-strong rounded-xl border p-4 shadow-soft-card">
         <p className="text-sm font-medium text-foreground">支持图片、CSV/Excel 文件与剪贴板文本</p>
         <p className="mt-1 text-xs leading-5 text-secondary-text">
-          图片识别需预先配置 Vision 模型。建议先人工核对解析结果，再合并到自选股。
+          图片识别需预先配置 Vision 模型。建议先人工核对분석结果，再관심 종목에 합치기。
         </p>
       </div>
 
@@ -313,7 +313,7 @@ export const IntelligentImport: React.FC<IntelligentImportProps> = ({
             disabled={disabled || isLoading}
             onClick={() => openFilePicker(imageInputRef)}
           >
-            选择图片
+            이미지 선택
           </Button>
           <input
             ref={imageInputRef}
@@ -329,7 +329,7 @@ export const IntelligentImport: React.FC<IntelligentImportProps> = ({
             disabled={disabled || isLoading}
             onClick={() => openFilePicker(dataFileInputRef)}
           >
-            选择文件
+파일 선택
           </Button>
           <input
             ref={dataFileInputRef}
@@ -342,7 +342,7 @@ export const IntelligentImport: React.FC<IntelligentImportProps> = ({
         </div>
         <div className="flex flex-col gap-2 sm:flex-row">
           <textarea
-            placeholder="或粘贴 CSV/Excel 复制的文本..."
+              placeholder="또는 CSV/Excel에서 복사한 텍스트를 붙여넣으세요..."
             className="input-surface settings-surface-strong settings-border-strong min-h-[72px] w-full rounded-xl border px-3 py-2 text-sm text-foreground shadow-none transition-colors placeholder:text-muted-text focus:outline-none"
             value={pasteText}
             onChange={(e) => setPasteText(e.target.value)}
@@ -355,12 +355,12 @@ export const IntelligentImport: React.FC<IntelligentImportProps> = ({
             onClick={handlePasteParse}
             disabled={disabled || isLoading || !pasteText.trim()}
           >
-            解析
+            분석
           </Button>
         </div>
       </div>
 
-      {isLoading && <p className="text-sm text-secondary-text">处理中...</p>}
+      {isLoading && <p className="text-sm text-secondary-text">처리 중...</p>}
       {error && (
         <InlineAlert
           variant="danger"
@@ -382,13 +382,13 @@ export const IntelligentImport: React.FC<IntelligentImportProps> = ({
             </span>
             <div className="flex gap-2">
               <button type="button" className="text-xs text-secondary-text transition-colors hover:text-foreground" onClick={() => toggleAll(true)}>
-                全选
+                전체 선택
               </button>
               <button type="button" className="text-xs text-secondary-text transition-colors hover:text-foreground" onClick={() => toggleAll(false)}>
-                取消
+                해제
               </button>
               <button type="button" className="text-xs text-secondary-text transition-colors hover:text-foreground" onClick={clearAll}>
-                清空
+                비우기
               </button>
             </div>
           </div>
@@ -412,7 +412,7 @@ export const IntelligentImport: React.FC<IntelligentImportProps> = ({
                     className="settings-input-checkbox h-4 w-4 rounded border-border/70 bg-base"
                   />
                   <span className={it.code ? 'font-medium text-foreground' : 'font-medium text-danger'}>
-                    {it.code || '解析失败'}
+                    {it.code || '분석실패'}
                   </span>
                   {it.name && <span className="text-secondary-text">({it.name})</span>}
                   <div className="ml-auto flex items-center gap-2">
@@ -439,7 +439,7 @@ export const IntelligentImport: React.FC<IntelligentImportProps> = ({
             onClick={() => void mergeToWatchlist()}
             disabled={disabled || isMerging || checkedCount === 0}
           >
-            {isMerging ? '保存中...' : '合并到自选股'}
+            {isMerging ? '저장 중...' : '관심 종목에 합치기'}
           </Button>
         </div>
       )}

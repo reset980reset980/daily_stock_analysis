@@ -21,6 +21,14 @@ type MarketReviewNotice = {
   message: string;
 } | null;
 
+const SETUP_CHECK_LABELS: Record<string, string> = {
+  llm_primary: 'LLM 기본 채널',
+  llm_agent: 'Agent 채널',
+  stock_list: '관심 종목 목록',
+  notification_channel: '알림 채널',
+  data_source: '데이터 소스',
+};
+
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -111,8 +119,8 @@ const HomePage: React.FC = () => {
     }
     const requiredNeedsAction = setupStatus.checks
       .filter((check) => check.required && check.status === 'needs_action')
-      .map((check) => check.title);
-    return requiredNeedsAction.slice(0, 3).join('、');
+      .map((check) => SETUP_CHECK_LABELS[check.key] || check.title);
+    return requiredNeedsAction.slice(0, 3).join(', ');
   }, [setupStatus]);
 
   useDashboardLifecycle({
