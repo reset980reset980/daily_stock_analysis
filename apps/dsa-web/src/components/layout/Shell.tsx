@@ -55,7 +55,7 @@ export const Shell: React.FC<ShellProps> = ({ children }) => {
             'max-h-[calc(100vh-1.5rem)] self-start sm:top-4 sm:max-h-[calc(100vh-2rem)]',
             collapsed ? 'w-[64px]' : 'w-[116px]'
           )}
-          aria-label="桌面侧边导航"
+          aria-label="데스크톱 사이드바 탐색"
         >
           <SidebarNav collapsed={collapsed} onNavigate={() => setMobileOpen(false)} />
         </aside>

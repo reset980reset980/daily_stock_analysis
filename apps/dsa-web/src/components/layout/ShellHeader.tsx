@@ -10,10 +10,10 @@ type ShellHeaderProps = {
 };
 
 const TITLES: Record<string, { title: string; description: string }> = {
-  '/': { title: '首页', description: '股票分析与历史报告工作台' },
-  '/chat': { title: '问股', description: '多轮策略问答与历史会话管理' },
-  '/backtest': { title: '回测', description: '回测任务与结果浏览' },
-  '/settings': { title: '设置', description: '系统配置、模型与认证管理' },
+  '/': { title: '홈', description: '종목 분석과 리포트 이력을 관리하는 작업 공간' },
+  '/chat': { title: '종목 AI', description: '전략 질의응답과 대화 기록 관리' },
+  '/backtest': { title: '백테스트', description: '백테스트 작업과 결과 확인' },
+  '/settings': { title: '설정', description: '시스템 설정, 모델, 인증 관리' },
 };
 
 export const ShellHeader: React.FC<ShellHeaderProps> = ({
@@ -22,7 +22,7 @@ export const ShellHeader: React.FC<ShellHeaderProps> = ({
   onOpenMobileNav,
 }) => {
   const location = useLocation();
-  const current = TITLES[location.pathname] ?? { title: 'Daily Stock Analysis', description: 'Web workspace' };
+  const current = TITLES[location.pathname] ?? { title: 'QuantB', description: '한국어 주식 분석 작업 공간' };
 
   return (
     <header className="sticky top-0 z-30 border-b border-border/60 bg-background/84 backdrop-blur-xl">
@@ -31,7 +31,7 @@ export const ShellHeader: React.FC<ShellHeaderProps> = ({
           type="button"
           onClick={onOpenMobileNav}
           className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-border/70 bg-card/70 text-secondary-text transition-colors hover:bg-hover hover:text-foreground lg:hidden"
-          aria-label="打开导航菜单"
+          aria-label="탐색 메뉴 열기"
         >
           <Menu className="h-5 w-5" />
         </button>
@@ -40,7 +40,7 @@ export const ShellHeader: React.FC<ShellHeaderProps> = ({
           type="button"
           onClick={onToggleSidebar}
           className="hidden h-10 w-10 items-center justify-center rounded-xl border border-border/70 bg-card/70 text-secondary-text transition-colors hover:bg-hover hover:text-foreground lg:inline-flex"
-          aria-label={collapsed ? '展开侧边栏' : '折叠侧边栏'}
+          aria-label={collapsed ? '사이드바 펼치기' : '사이드바 접기'}
         >
           {collapsed ? <PanelLeftOpen className="h-5 w-5" /> : <PanelLeftClose className="h-5 w-5" />}
         </button>

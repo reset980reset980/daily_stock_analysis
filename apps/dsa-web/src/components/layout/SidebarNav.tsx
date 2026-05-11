@@ -24,11 +24,11 @@ type NavItem = {
 };
 
 const NAV_ITEMS: NavItem[] = [
-  { key: 'home', label: '首页', to: '/', icon: Home, exact: true },
-  { key: 'chat', label: '问股', to: '/chat', icon: MessageSquareQuote, badge: 'completion' },
-  { key: 'portfolio', label: '持仓', to: '/portfolio', icon: BriefcaseBusiness },
-  { key: 'backtest', label: '回测', to: '/backtest', icon: BarChart3 },
-  { key: 'settings', label: '设置', to: '/settings', icon: Settings2 },
+  { key: 'home', label: '홈', to: '/', icon: Home, exact: true },
+  { key: 'chat', label: '종목 AI', to: '/chat', icon: MessageSquareQuote, badge: 'completion' },
+  { key: 'portfolio', label: '포트폴리오', to: '/portfolio', icon: BriefcaseBusiness },
+  { key: 'backtest', label: '백테스트', to: '/backtest', icon: BarChart3 },
+  { key: 'settings', label: '설정', to: '/settings', icon: Settings2 },
 ];
 
 export const SidebarNav: React.FC<SidebarNavProps> = ({ collapsed = false, onNavigate }) => {
@@ -43,11 +43,11 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ collapsed = false, onNav
           <BarChart3 className="h-5 w-5" />
         </div>
         {!collapsed ? (
-          <p className="min-w-0 truncate text-sm font-semibold text-foreground">DSA</p>
+          <p className="min-w-0 truncate text-sm font-semibold text-foreground">QuantB</p>
         ) : null}
       </div>
 
-      <nav className="flex flex-1 flex-col gap-1.5" aria-label="主导航">
+      <nav className="flex flex-1 flex-col gap-1.5" aria-label="주요 탐색">
         {NAV_ITEMS.map(({ key, label, to, icon: Icon, exact, badge }) => (
           <NavLink
             key={key}
@@ -87,7 +87,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ collapsed = false, onNav
                       'absolute right-3 border-2 border-background shadow-[0_0_10px_var(--nav-indicator-shadow)]',
                       collapsed ? 'right-2 top-2' : ''
                     )}
-                    aria-label="问股有新消息"
+                    aria-label="종목 AI 새 메시지"
                   />
                 ) : null}
               </>
@@ -110,16 +110,16 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({ collapsed = false, onNav
           )}
         >
           <LogOut className="h-5 w-5 shrink-0" />
-          {!collapsed ? <span>退出</span> : null}
+          {!collapsed ? <span>로그아웃</span> : null}
         </button>
       ) : null}
 
       <ConfirmDialog
         isOpen={showLogoutConfirm}
-        title="退出登录"
-        message="确认退出当前登录状态吗？退出后需要重新输入密码。"
-        confirmText="确认退出"
-        cancelText="取消"
+        title="로그아웃"
+        message="현재 로그인 세션에서 로그아웃할까요? 다시 접속하려면 비밀번호를 다시 입력해야 합니다."
+        confirmText="로그아웃"
+        cancelText="취소"
         isDanger
         onConfirm={() => {
           setShowLogoutConfirm(false);

@@ -94,7 +94,7 @@ const ChatPage: React.FC = () => {
 
   // Set page title
   useEffect(() => {
-    document.title = '问股 - DSA';
+    document.title = '종목 AI - QuantB';
   }, []);
 
   useEffect(() => () => {
@@ -748,7 +748,7 @@ const ChatPage: React.FC = () => {
             )}
           </div>
           <p className="text-secondary-text text-sm">
-            向 AI 询问个股分析，获取基于技能视角的交易建议与实时决策报告。
+            AI에게 종목 분석을 질문하고, 전략 관점의 매매 의견과 실시간 의사결정 리포트를 받아보세요.
           </p>
           {sendToast ? (
             <InlineAlert
@@ -772,8 +772,8 @@ const ChatPage: React.FC = () => {
             {messages.length === 0 && !loading ? (
               <div className="flex h-full items-center justify-center">
                 <EmptyState
-                  title="开始问股"
-                  description="输入「分析 600519」或「茅台现在能买吗」，AI 将调用实时数据工具为您生成决策报告。"
+                  title="종목 AI 시작하기"
+                  description="예: ‘005930 분석해줘’ 또는 ‘애플 지금 진입해도 될까?’처럼 입력하면 AI가 실시간 데이터를 바탕으로 리포트를 생성합니다."
                   className="max-w-2xl border-dashed bg-card/55"
                   icon={(
                     <svg
